@@ -8,9 +8,9 @@ function [affineLKContext] = initAffineLKTracker(img, msk)
 % inverse of the approximated Hessian matrix (J and inv(H) in Equation 11).
 
 % load img and test
-load('../data/initTest.mat');
-
-testJ = affineLKContext.Jacobian;
+% load('../data/initTest.mat');
+% 
+% testJ = affineLKContext.Jacobian;
 
 
 [row, col] = size(img);
@@ -20,11 +20,16 @@ T = img .* msk;
 
 i=1;
 
-for y = 1:80
-    for x = 1:80
+for x = 1:row
+    for y = 1:col
         J(i,:) = [Tx(i), Ty(i)]*[ x 0 y 0 1 0;0 x 0 y 0 1];
         i = i+1;
     end
 end
 
-res = testJ - J;
+H = J' * J;
+
+affineLKContext.Jacobian = J;
+affineLKContext.HessianInv = inv(H);
+
+% res = testJ - J;
