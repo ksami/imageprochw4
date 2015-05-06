@@ -42,18 +42,25 @@ for i=startFrame:nframes
         mask(yt1:yt2, xt1:xt2) = true;
         templateBox = [xt1 xt1 xt2 xt2 xt1; yt1 yt2 yt2 yt1 yt1];
         
+        %initialize pyramid template, mask
+        tmpScaled = cell(3,1);
+        mskScaled = cell(3,1);
+        tmpScaled{1} = template;
+        mskScaled{1} = mask;
+
+        for ii=2:3
+            tmpScaled{ii} = imresize(tmpScaled{ii-1}, 0.5,'bilinear');
+            mskScaled{ii} = imresize(mskScaled{ii-1}, 0.5,'bilinear');
+        end
+        
         %initialize the LK tracker for this template
-        affineLKContext = initAffineLKTracker(template, mask);
+        affineLKContext = initAffinePyramidLKTracker(tmpScaled, mskScaled);
+        
     end
     
-    %compute Steepest Descent image
-%     colsize = yt2-yt1+1;
-%     jacobianImage(affineLKContext.Jacobian,colsize);
-
     %actually do the LK tracking to update transform for current frame
-    tic;
-    W = affineTrackerMasked(img, template, mask, W, affineLKContext);
-    
+    tic;   
+    W = affineTrackerPyramidMasked(img,tmpScaled,mskScaled,W,affineLKContext);
     ftime = toc;
     
     %draw the location of the template onto the current frame, display

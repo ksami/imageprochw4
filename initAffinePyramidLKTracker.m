@@ -1,4 +1,4 @@
-function [affineLKContext] = initAffineLKTracker(img, msk)
+function [affineLKContext] = initAffinePyramidLKTracker(imgScaled, mskScaled)
 % The function will input a greyscale image (img) along with a logical mask image
 % (msk) that is the same size as img. The mask is true at pixels that lie inside the
 % user defined bounding box and are hence part of the tracking template and is false
@@ -11,6 +11,10 @@ function [affineLKContext] = initAffineLKTracker(img, msk)
 % load('../data/initTest.mat');
 % 
 % testJ = affineLKContext.Jacobian;
+
+img = imgScaled{3};
+msk = mskScaled{3};
+
 [row, col] = size(img);
 J = zeros([row*col,6]);
 
