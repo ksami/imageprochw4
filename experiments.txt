@@ -1,0 +1,10 @@
+Experiments
+======
+Templates that work well:
+- Features with sharp, distinct edges
+- Does not change perspective eg. viewing a car from different angles
+- Consistent brightness
+
+Points where it breaks down:
+- Brightness change
+- Shaky camera ie. too large change in a short time

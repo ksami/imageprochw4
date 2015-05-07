@@ -1,5 +1,5 @@
 %folder containing data (a sequence of jpg images)
-dirname = '../data/car';
+dirname = '../data/landing';
 
 %find the images, initialize some variables
 dirlist = dir(sprintf('%s/*.jpg', dirname));
